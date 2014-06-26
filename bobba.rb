@@ -1,13 +1,15 @@
 class Bobba
   attr_reader :x, :y, :direction, :shoots
   attr_accessor :shooting
+  SPEED = 6
   def initialize window, x, y
-    @x, @y, @window, @direction, @shooting, @shoots = x, y, window, direction, false, 3
+    @x, @window, @direction, @shooting, @shoots = x, window, direction, false, 3
     @width = 32
     @height = 41
     @frame = 0
     @image = Gosu::Image.load_tiles @window, "images/bobba.png", @width, @height, true
     @direction = :right
+    @y = y - @height - 1 # 1px padding 
   end
 
   def can_shoot?
@@ -16,7 +18,7 @@ class Bobba
 
 
   def someone_in_front? other
-      @x < other.x && @direction == :right || @x > other.x && @direction == :left
+    @x < other.x && @direction == :right || @x > other.x && @direction == :left
   end
 
   def shoot
@@ -30,13 +32,13 @@ class Bobba
   def update
     if @window.button_down? Gosu::KbRight
       @direction = :right
-      @x += 6
+      @x += SPEED
       @x = 0 if self.x > @window.width
       next_tile
     end
     if @window.button_down? Gosu::KbLeft
       @direction = :left
-      @x -= 6
+      @x -= SPEED
       @x = @window.width if self.x < 0
       next_tile
     end

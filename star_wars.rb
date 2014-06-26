@@ -9,7 +9,7 @@ class StarWars < Hasu::Window
     @song = Gosu::Song.new self, "audio/starwars.mp3"
     @song.play
     @background = Gosu::Image.new self, "images/bg_senate.gif", true
-    @bobba = Bobba.new self, 0, self.height - 42
+    @bobba = Bobba.new self, 0, self.height
     @droid = nil
   end
 
@@ -22,11 +22,11 @@ class StarWars < Hasu::Window
     end
 
     if id == Gosu::KbN
-      @droid = add_droid
+      @droid = self.add_droid
     end
 
     def add_droid
-      droid = Droid.new self, self.width, self.height-51
+      Droid.new self, self.width, self.height-51
     end
 
   end
