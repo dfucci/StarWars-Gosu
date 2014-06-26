@@ -1,15 +1,18 @@
+load 'bullet.rb'
 class Bobba
-  attr_reader :x, :y, :direction, :shoots
+  attr_reader :x, :y, :direction, :shoots, :height
   attr_accessor :shooting
   SPEED = 6
   def initialize window, x, y
-    @x, @window, @direction, @shooting, @shoots = x, window, direction, false, 3
+    @height, @x, @window, @direction, @shooting, @shoots = height, x, window, direction, false, 3
     @width = 32
     @height = 41
     @frame = 0
+    @sample = Gosu::Sample.new @window, "audio/gun.mp3"
     @image = Gosu::Image.load_tiles @window, "images/bobba.png", @width, @height, true
     @direction = :right
-    @y = y - @height - 1 # 1px padding 
+    @y = y - @height - 1 # 1px padding
+    @shooting = false
   end
 
   def can_shoot?
@@ -41,10 +44,18 @@ class Bobba
       @x -= SPEED
       @x = @window.width if self.x < 0
       next_tile
+      end
+    if @window.button_down? Gosu::KbX
+        #shoot
+        @sample.play
+        @bullet = Bullet.new @window, self
+        @shooting = true
     end
+        @bullet.update if @shooting
   end
 
   def draw
+    @bullet.draw if @shooting
     f = @frame % @image.size
     tile = @image[f]
     if @direction == :right

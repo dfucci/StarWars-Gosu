@@ -5,7 +5,6 @@ class StarWars < Hasu::Window
   def initialize
     super 640, 480, false, 96
     self.caption = "Star Wars"
-    @sample = Gosu::Sample.new self, "audio/gun.mp3"
     @song = Gosu::Song.new self, "audio/starwars.mp3"
     @song.play
     @background = Gosu::Image.new self, "images/bg_senate.gif", true
@@ -15,11 +14,7 @@ class StarWars < Hasu::Window
 
   def button_down id
     close if id == Gosu::KbEscape
-    if id == Gosu::KbX
-      @bobba.shoot
-      @sample.play
-      @bobba.shooting = true
-    end
+
 
     if id == Gosu::KbN
       @droid = self.add_droid
@@ -37,9 +32,9 @@ class StarWars < Hasu::Window
       @droid.update
       if @bobba.someone_in_front?(@droid) && @bobba.shooting
         @droid.kill if @droid
-        @bobba.shooting = false
+        #@bobba.shooting = false
       else
-        @bobba.shooting = false
+        #@bobba.shooting = false
       end
     end
   end
