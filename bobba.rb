@@ -14,7 +14,7 @@ class Bobba
     @y = y - @height - 1 # 1px padding
     @shooting = false
     @bullet = nil
-    @shooting_direction = nil
+    @shooting_direction = :right
   end
 
   def update(droid=nil)
@@ -69,5 +69,4 @@ class Bobba
       @bullet = nil
     end
   end
-
 end
