@@ -14,6 +14,7 @@ class Bobba
     @y = y - @height - 1 # 1px padding
     @shooting = false
     @bullet = nil
+    @shooting_direction = nil
   end
 
   def update(droid=nil)
@@ -55,19 +56,18 @@ class Bobba
   end
 
   def shoot droid
+    @shooting_direction = @direction
     @sample.play
-    if droid && facing?(droid)
       @shooting = true
       @bullet = Bullet.new @window, self
-      self.kill droid
-    end
   end
 
   def kill droid
-    if @bullet && @bullet.hits?(droid)
+    if @bullet && @bullet.hits?(droid, @shooting_direction)
       droid.kill
+      droid = nil
       @bullet = nil
     end
   end
-  
+
 end

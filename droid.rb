@@ -1,5 +1,5 @@
 class Droid
-  attr_accessor :x, :y
+  attr_accessor :x, :y, :direction
   SPEED = 2
   TOTAL_FRAME_HIT = 8
   def initialize window, x, y
