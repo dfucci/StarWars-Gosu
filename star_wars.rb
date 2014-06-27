@@ -3,7 +3,7 @@ load 'droid.rb'
 load 'bobba.rb'
 class StarWars < Hasu::Window
   def initialize
-    super 640, 480, false, 96
+    super 640, 320, false, 96
     self.caption = "Star Wars"
     @song = Gosu::Song.new self, "audio/starwars.mp3"
     @song.play
@@ -39,7 +39,7 @@ class StarWars < Hasu::Window
   end
 
   def add_droid
-    @droid = Droid.new self, self.width, self.height-51
+    @droid = Droid.new self, self.width, self.height - 51
   end
 end
 StarWars.run

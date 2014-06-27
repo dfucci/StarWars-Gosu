@@ -13,15 +13,8 @@ class Droid
     @frame = 0
     @frame_hit = 0
     @dead = false
-
-  end
-  def kill
-    @dead = true
   end
 
-  def is_dead?
-    @dead
-  end
   def update
     if !is_dead?
       @x -= SPEED
@@ -41,5 +34,13 @@ class Droid
       tile = @image_hit[f]
       tile.draw @x, @y, 1
     end
+  end
+
+  def kill
+    @dead = true
+  end
+
+  def is_dead?
+    @dead
   end
 end

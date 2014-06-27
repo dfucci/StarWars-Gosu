@@ -16,6 +16,22 @@ class Bobba
     @bullet = nil
   end
 
+  def update(droid=nil)
+    @bullet.update if @shooting && @bullet
+    self.kill droid if droid
+  end
+
+  def draw
+    @bullet.draw if @bullet
+    f = @frame % @image.size
+    tile = @image[f]
+    if @direction == :right
+      tile.draw @x, @y, 1
+    else
+      tile.draw @x + tile.width, @y, 1, -1
+    end
+  end
+
   def can_shoot?
     @shoots>0
   end
@@ -53,20 +69,5 @@ class Bobba
       @bullet = nil
     end
   end
-
-  def update(droid=nil)
-    @bullet.update if @shooting && @bullet
-    self.kill droid if droid
-  end
-
-  def draw
-    @bullet.draw if @bullet
-    f = @frame % @image.size
-    tile = @image[f]
-    if @direction == :right
-      tile.draw @x, @y, 1
-    else
-      tile.draw @x + tile.width, @y, 1, -1
-    end
-  end
+  
 end
