@@ -1,6 +1,6 @@
 load 'bullet.rb'
 class Bobba
-  attr_reader :x, :y, :direction, :shoots, :height
+  attr_reader :x, :y, :direction, :shoots, :height, :bullet
   attr_accessor :shooting
   SPEED = 6
   def initialize window, x, y
@@ -13,6 +13,7 @@ class Bobba
     @direction = :right
     @y = y - @height - 1 # 1px padding
     @shooting = false
+    @bullet = nil
   end
 
   def can_shoot?
@@ -20,42 +21,46 @@ class Bobba
   end
 
 
-  def someone_in_front? other
+  def facing? other
     @x < other.x && @direction == :right || @x > other.x && @direction == :left
-  end
-
-  def shoot
-    @shoots -= 1 if can_shoot?
   end
 
   def next_tile
     @frame+=1
   end
 
-  def update
-    if @window.button_down? Gosu::KbRight
-      @direction = :right
-      @x += SPEED
-      @x = 0 if self.x > @window.width
-      next_tile
+  def move direction
+    @direction = direction
+    @x += SPEED if @direction == :right
+    @x -= SPEED if @direction == :left
+    @x = 0 if self.x > @window.width
+    @x = @window.width if self.x < 0
+    next_tile
+  end
+
+  def shoot droid
+    @sample.play
+    if droid && facing?(droid)
+      @shooting = true
+      @bullet = Bullet.new @window, self
+      self.kill droid
     end
-    if @window.button_down? Gosu::KbLeft
-      @direction = :left
-      @x -= SPEED
-      @x = @window.width if self.x < 0
-      next_tile
-      end
-    if @window.button_down? Gosu::KbX
-        #shoot
-        @sample.play
-        @bullet = Bullet.new @window, self
-        @shooting = true
+  end
+
+  def kill droid
+    if @bullet && @bullet.hits?(droid)
+      droid.kill
+      @bullet = nil
     end
-        @bullet.update if @shooting
+  end
+
+  def update(droid=nil)
+    @bullet.update if @shooting && @bullet
+    self.kill droid if droid
   end
 
   def draw
-    @bullet.draw if @shooting
+    @bullet.draw if @bullet
     f = @frame % @image.size
     tile = @image[f]
     if @direction == :right

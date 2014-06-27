@@ -12,37 +12,34 @@ class StarWars < Hasu::Window
     @droid = nil
   end
 
-  def button_down id
-    close if id == Gosu::KbEscape
-
-
-    if id == Gosu::KbN
-      @droid = self.add_droid
-    end
-
-    def add_droid
-      Droid.new self, self.width, self.height-51
-    end
-
-  end
-
   def update
-    @bobba.update
-    if @droid
-      @droid.update
-      if @bobba.someone_in_front?(@droid) && @bobba.shooting
-        @droid.kill if @droid
-        #@bobba.shooting = false
-      else
-        #@bobba.shooting = false
-      end
+    close if button_down? Gosu::KbEscape
+    add_droid if self.button_down? Gosu::KbN
+
+    if self.button_down? Gosu::KbRight
+      @bobba.move :right
     end
+
+    if self.button_down? Gosu::KbLeft
+      @bobba.move :left
+    end
+
+    if self.button_down? Gosu::KbX
+      @bobba.shoot @droid
+    end
+
+    @droid.update if @droid
+    @bobba.update @droid
   end
 
   def draw
     @bobba.draw
-    @droid.draw if !@droid.nil?
+    @droid.draw if @droid
     @background.draw 0,0,0,2.3,3
+  end
+
+  def add_droid
+    @droid = Droid.new self, self.width, self.height-51
   end
 end
 StarWars.run
