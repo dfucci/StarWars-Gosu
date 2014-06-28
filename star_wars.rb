@@ -39,7 +39,7 @@ class StarWars < Hasu::Window
   end
 
   def add_droid
-    @droid = Droid.new self, self.width, self.height - 51
+    @droid = Droid.new self
   end
 end
 StarWars.run

@@ -2,7 +2,8 @@ class Bullet
   SPEED = 8
   attr_accessor :x, :direction
   def initialize window, shooter
-    @x, @y, @direction, @window = shooter.x, shooter.y + shooter.height/2, shooter.direction,window
+    @x, @y, @direction, @window = shooter.x, shooter.y + shooter.height/2,
+         shooter.direction,window
     @image = Gosu::Image.new  @window, 'images/bullet.png', true
   end
 
@@ -20,7 +21,8 @@ class Bullet
 
   end
 
-  def hits? something, facing
-    (@x > something.x && facing == :right || @x < something.x && facing == :left) && !something.is_dead?
+  def hits? something, facing, position
+   (position < something.x && @x > something.x && facing == :right||
+         @x < something.x && facing == :left) && !something.is_dead?
   end
 end

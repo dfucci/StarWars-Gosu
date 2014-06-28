@@ -4,17 +4,20 @@ class Bobba
   attr_accessor :shooting
   SPEED = 6
   def initialize window, x, y
-    @height, @x, @window, @direction, @shooting, @shoots = height, x, window, direction, false, 3
+    @height, @x, @window, @direction, @shooting, @shoots = height, x,
+        window, direction, false, 3
     @width = 32
     @height = 41
     @frame = 0
     @sample = Gosu::Sample.new @window, "audio/gun.mp3"
-    @image = Gosu::Image.load_tiles @window, "images/bobba.png", @width, @height, true
+    @image = Gosu::Image.load_tiles @window, "images/bobba.png",
+        @width, @height, true
     @direction = :right
     @y = y - @height - 1 # 1px padding
     @shooting = false
     @bullet = nil
     @shooting_direction = :right
+    @shooting_position = @x
   end
 
   def update(droid=nil)
@@ -57,13 +60,14 @@ class Bobba
 
   def shoot droid
     @shooting_direction = @direction
+    @shooting_position = @x
     @sample.play
       @shooting = true
       @bullet = Bullet.new @window, self
   end
 
   def kill droid
-    if @bullet && @bullet.hits?(droid, @shooting_direction)
+    if @bullet && @bullet.hits?(droid, @shooting_direction, @shooting_position)
       droid.kill
       droid = nil
       @bullet = nil
