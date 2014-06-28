@@ -10,11 +10,20 @@ class StarWars < Hasu::Window
     @background = Gosu::Image.new self, "images/bg_senate.gif", true
     @bobba = Bobba.new self, 0, self.height
     @droid = nil
+    @font = Gosu::Font.new(self, Gosu::default_font_name, 80)
+    @gameover = false
   end
 
   def update
     close if button_down? Gosu::KbEscape
     add_droid if self.button_down? Gosu::KbN
+
+    if @droid && (@bobba.x == @droid.x)
+      @gameover = true
+      @bobba.remove
+    end
+
+
 
     if self.button_down? Gosu::KbRight
       @bobba.move :right
@@ -36,6 +45,7 @@ class StarWars < Hasu::Window
     @bobba.draw
     @droid.draw if @droid
     @background.draw 0,0,0,2.3,3
+    @font.draw("Game Over", 120, 80, 1, 1,1, Gosu::Color.argb(0xffff0000)) if @gameover
   end
 
   def add_droid

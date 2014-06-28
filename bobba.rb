@@ -66,6 +66,10 @@ class Bobba
       @bullet = Bullet.new @window, self
   end
 
+  def remove
+    @y = -100
+  end
+
   def kill droid
     if @bullet && @bullet.hits?(droid, @shooting_direction, @shooting_position)
       droid.kill
