@@ -23,8 +23,6 @@ class StarWars < Hasu::Window
       @bobba.remove
     end
 
-
-
     if self.button_down? Gosu::KbRight
       @bobba.move :right
     end
@@ -41,11 +39,12 @@ class StarWars < Hasu::Window
     @bobba.update @droid
   end
 
-  def draw
+  def draw 
     @bobba.draw
-    @droid.draw if @droid
+    @droid.draw if @droid 
     @background.draw 0,0,0,2.3,3
-    @font.draw("Game Over", 120, 80, 1, 1,1, Gosu::Color.argb(0xffff0000)) if @gameover
+    @font.draw("Game Over", 120, 80, 1, 1,1, Gosu::Color.argb(0xffff0000)) if
+    @gameover 
   end
 
   def add_droid
